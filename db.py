@@ -10,6 +10,7 @@ def criar_tabs():
     #criar um executor, no caso o cursor
     #antes é necessário armazenar a função conectar() em uma variável
     #porque vamos reutiliza-la para fechar a conexão
+    #não teria como saber qual a conexão está aberta
     conn = conectar()
     #agora crio o cursor que vai manipular os dados
     #e já o armazeno conectado
@@ -31,5 +32,5 @@ def criar_tabs():
     """)
 
     #salvando e fechando a conexão
-    cursor.commit()
-    cursor.close()
+    conn.commit()
+    conn.close()
