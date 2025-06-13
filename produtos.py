@@ -75,33 +75,33 @@ def deletar_produto(nome_entry):
 
     # interface gráfica ---> front-end
 
-    def tela_principal():
-        root = tk.Tk()
-        root.title("Painel de Produtos")
-        root.geometry("400x500")
+def tela_principal():
+    root = tk.Tk()
+    root.title("Painel de Produtos")
+    root.geometry("400x500")
 
-        tk.Label(root, text="Nome do Produto").pack()
-        nome_entry = tk.Entry(root)
-        nome_entry.pack()
+    tk.Label(root, text="Nome do Produto").pack()
+    nome_entry = tk.Entry(root)
+    nome_entry.pack()
 
-        tk.Label(root, text="Preço").pack()
-        preco_entry = tk.Entry(root)
-        preco_entry.pack()
+    tk.Label(root, text="Preço").pack()
+    preco_entry = tk.Entry(root)
+    preco_entry.pack()
 
-        # Campo de busca
-        tk.Label(root, text="Buscar Produto por Nome").pack()
-        nome_entry = tk.Entry(root)
-        nome_entry.pack()
-        tk.Button(root, text="Buscar", command=lambda: buscar_produtos(nome_entry, lista))
-        lista = tk.Listbox(root, width=50)
-        lista.pack(pady=10)
+    # Campo de busca
+    tk.Label(root, text="Buscar Produto por Nome").pack()
+    nome_entry = tk.Entry(root)
+    nome_entry.pack()
+    tk.Button(root, text="Buscar", command=lambda:buscar_produtos(nome_entry, lista)).pack()
+    lista = tk.Listbox(root, width=50)
+    lista.pack(pady=10)
 
-        tk.Button(root, text="Adicionar Produto", command=lambda:incluir_produtos(nome_entry, preco_entry))
-        tk.Button(root, text="Deletar Produto", command=lambda:deletar_produto(nome_entry))
+    tk.Button(root, text="Adicionar Produto", command=lambda:incluir_produtos(nome_entry, preco_entry, lista)).pack()
+    tk.Button(root, text="Deletar Produto", command=lambda:deletar_produto(nome_entry, lista)).pack()
 
-        buscar_produtos(lista)
-        root.mainloop()
-        
+    buscar_produtos(lista)
+    root.mainloop()
+    
 
         
 
