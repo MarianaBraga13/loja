@@ -17,15 +17,15 @@ def criar_tabs():
     cursor = conn.cursor()
     #criando as tabelas
     cursor.execute("""
-            CREATE IF NOT EXISTS usuarios (
-                   id PRIMARY KEY AUTOINCREMENT,
+            CREATE TABLE IF NOT EXISTS usuarios (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                    nome TEXT NOT NULL,
                    senha TEXT NOT NULL
                     );
     """)
     cursor.execute("""
-            CREATE IF NOT EXISTS produtos (
-                   id PRIMARY KEY AUTOINCREMENT,
+            CREATE TABLE IF NOT EXISTS produtos (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                    nome TEXT NOT NULL,
                    preco REAL NOT NULL
                    );
