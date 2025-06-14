@@ -10,9 +10,10 @@ def login(nome_entry, senha_entry, root, abrir_painel):
     #agora preciso buscar no banco de dados
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM usuarios',(nome, senha))
+    cursor.execute('SELECT * FROM usuarios WHERE nome=? AND senha=?',(nome, senha))
     usuario_valido = cursor.fetchone()
     conn.close()
+
 
     #condições para usuário ingressar:
     if usuario_valido:
@@ -33,8 +34,9 @@ def cadastrar(nome_entry, senha_entry):
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute('INSERT INTO usuarios (nome, senha) VALUES (?, ?)', (nome, senha))
+    conn.commit()
     conn.close()
-    messagebox("Cadastro","Usuário(a) cadastrado(a) com sucesso!")
+    messagebox.showinfo("Cadastro","Usuário(a) cadastrado(a) com sucesso!")
 
 #definindo a tela de login ------>Front-End
 
