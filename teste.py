@@ -1,18 +1,18 @@
 from db import conectar
 
-#criar função para ver todos os usuários no banco
-def ver_cadastrados():
+def mostrar_cadastrados():
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM usuarios')
     cadastrados = cursor.fetchall()
     conn.close()
 
+    print("Usuários com cadastro:")
     if cadastrados:
         for usuario in cadastrados:
-            print("Usuários cadastrados no banco de dados:")
-            print(f"{usuario[0]} - {usuario[1]}")
+            
+            print(f"ID: {usuario[0]} - Nome: {usuario[1]} - Senha: {usuario[2]}")
     else:
-        print("Sem usuários cadastrados.")
+        print("Sem usuários cadastrados no momento.")
 
-ver_cadastrados()        
+mostrar_cadastrados()
