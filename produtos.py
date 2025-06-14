@@ -43,11 +43,11 @@ def incluir_produtos(nome_entry, preco_entry):
         conn = conectar()
         cursor = conn.cursor()
         # checando se já existe ou não no banco de dados
-        cursor.execute('SELECT * FROM produtos WHERE nome =?' (nome,))
+        cursor.execute('SELECT * FROM produtos (nome, preco) VALUES (?, ?)', (nome, preco))
         existe = cursor.fetchone()
-
+        
         if not existe:
-            cursor.execute ('INSERT INTO produtos (nome, preco) VALUES (?, ?)', (nome, preco))
+            cursor.execute('INSERT INTO produtos (nome, preco) VALUES (?, ?)', (nome, preco))
             conn.close()
             messagebox.showinfo("Info", f"Produto {nome} cadastrado com sucesso!")
         else:
@@ -96,7 +96,7 @@ def tela_principal():
     lista = tk.Listbox(root, width=50)
     lista.pack(pady=10)
 
-    tk.Button(root, text="Adicionar Produto", command=lambda:incluir_produtos(nome_entry, preco_entry, lista)).pack()
+    tk.Button(root, text="Adicionar Produto", command=lambda:incluir_produtos(nome_entry, preco_entry)).pack()
     tk.Button(root, text="Deletar Produto", command=lambda:deletar_produto(nome_entry, lista)).pack()
 
     buscar_produtos(lista)
