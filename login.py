@@ -49,7 +49,7 @@ def tela_login(abrir_painel):
     #ativar tela padrão do Tkinter
     root = tk.Tk()
     root.title("Login")
-    root.geometry("300x200")
+    root.geometry("350x250")
 
     #criando o espaço para input usuário
     tk.Label(root, text="Usuário").pack() #aqui é o texto sobre o retângulo
@@ -57,9 +57,9 @@ def tela_login(abrir_painel):
     nome_entry.pack()
 
     #criando o espaço para input da senha
-    tk.Label(root, text="Senha").pack
+    tk.Label(root, text="Senha").pack()
     senha_entry = tk.Entry(root, show="*")
-    senha_entry.pack()
+    senha_entry.pack(pady=5)
 
     #agora os botões e os comandos do back-end
     tk.Button(root, text="Login",command=lambda:login(nome_entry, senha_entry, root, abrir_painel)).pack(pady=5)

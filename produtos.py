@@ -24,7 +24,7 @@ def buscar_produtos(nome_entry, lista):
         # exiba-os em uma lista
         # como? percorra os resultados e crie uma nova tabela para o usuário
         for coluna in produtos_encontrados:
-            lista.insert(f'{coluna[0]} - {coluna[1]} - R${coluna[2]}:.2f')
+            lista.insert(f'{coluna[0]} - {coluna[1]} - R${coluna[2]:.2f}')
     else:
         lista.insert(tk.END, "Nenhum produto encontrado")
         # verificar se aqui ficaria melhor utiliar o messagebox
@@ -33,6 +33,7 @@ def buscar_produtos(nome_entry, lista):
 def incluir_produtos(nome_entry, preco_entry):
     nome = nome_entry.get()
     preco = preco_entry.get()
+    preco = float(preco)
 
     # tratando exceção 1
     if not nome or not preco:
@@ -43,11 +44,13 @@ def incluir_produtos(nome_entry, preco_entry):
         conn = conectar()
         cursor = conn.cursor()
         # checando se já existe ou não no banco de dados
-        cursor.execute('SELECT * FROM produtos (nome, preco) VALUES (?, ?)', (nome, preco))
+        cursor.execute('SELECT * FROM produtos WHERE nome = ? AND preco = ?', (nome, preco))
         existe = cursor.fetchone()
+        
         
         if not existe:
             cursor.execute('INSERT INTO produtos (nome, preco) VALUES (?, ?)', (nome, preco))
+            conn.commit()
             conn.close()
             messagebox.showinfo("Info", f"Produto {nome} cadastrado com sucesso!")
         else:
@@ -97,7 +100,7 @@ def tela_principal():
     lista.pack(pady=10)
 
     tk.Button(root, text="Adicionar Produto", command=lambda:incluir_produtos(nome_entry, preco_entry)).pack()
-    tk.Button(root, text="Deletar Produto", command=lambda:deletar_produto(nome_entry, lista)).pack()
+    tk.Button(root, text="Deletar Produto", command=lambda:deletar_produto(nome_entry)).pack()
 
     buscar_produtos(lista)
     root.mainloop()
