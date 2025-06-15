@@ -33,10 +33,15 @@ def cadastrar(nome_entry, senha_entry):
     #conectando o cursor novamente
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO usuarios (nome, senha) VALUES (?, ?)', (nome, senha))
-    conn.commit()
-    conn.close()
-    messagebox.showinfo("Cadastro","Usuário(a) cadastrado(a) com sucesso!")
+    cursor.execute('SELECT * FROM usuarios WHERE nome = ?', (nome,))
+    existente = cursor.fetchone()
+    if existente:
+        messagebox.showinfo("Info", "Usuário(a) já existe, tente outro nome.")
+    else:    
+        cursor.execute('INSERT INTO usuarios (nome, senha) VALUES (?, ?)', (nome, senha))
+        conn.commit()
+        conn.close()
+        messagebox.showinfo("Cadastro","Usuário(a) cadastrado(a) com sucesso!")
 
 #definindo a tela de login ------>Front-End
 
