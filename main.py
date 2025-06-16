@@ -1,6 +1,6 @@
 from db import criar_tabs
 from login import tela_login
-from produtos_teste import tela_principal
+from produtos import tela_principal
 
 if __name__ == "__main__":
     criar_tabs()
