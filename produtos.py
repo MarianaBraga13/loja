@@ -4,14 +4,15 @@ from db import conectar
 
 #definindo a função carregar/buscar
 
-def buscar_produtos(nome_entry, lista):
-    nome_busca = nome_entry.get().strip()
+def carregar_produtos(busca_entry, lista):
+    nome_busca = busca_entry.get().strip()
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM produtos WHERE (nome) LIKE ? VALUE (?)', (f'%{nome_busca}%',))
+    cursor.execute('SELECT * FROM produtos WHERE nome LIKE ?', (f'%{nome_busca}%',))
     # valor encontrado? ---> encontrou produtos?
     # armazene em uma variável !
     produtos_encontrados = cursor.fetchall()
+    conn.commit()
     conn.close()
 
     # quando os valores encontrados são armazenados em uma variável no back-end
@@ -24,7 +25,7 @@ def buscar_produtos(nome_entry, lista):
         # exiba-os em uma lista
         # como? percorra os resultados e crie uma nova tabela para o usuário
         for coluna in produtos_encontrados:
-            lista.insert(f'{coluna[0]} - {coluna[1]} - R${coluna[2]:.2f}')
+            lista.insert(tk.END, f'{coluna[0]} - {coluna[1]} - R${coluna[2]:.2f}')
     else:
         lista.insert(tk.END, "Nenhum produto encontrado")
         # verificar se aqui ficaria melhor utiliar o messagebox
@@ -64,16 +65,16 @@ def deletar_produto(nome_entry):
     nome = nome_entry.get()
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM produtos WHERE nome=?'(nome,))
+    cursor.execute('SELECT * FROM produtos WHERE nome=?', (nome,))
     
     existe = cursor.fetchone()
-    conn.close()
+    
 
     if not existe:
         messagebox.showinfo("Info", "Produto não existe no banco de dados.")
     else:
         cursor.execute('DELETE FROM produtos WHERE nome=?',(nome,))    
-    conn.commit()
+        conn.commit()
     conn.close()
 
     # interface gráfica ---> front-end
@@ -93,16 +94,16 @@ def tela_principal():
 
     # Campo de busca
     tk.Label(root, text="Buscar Produto por Nome").pack()
-    nome_entry = tk.Entry(root)
-    nome_entry.pack()
-    tk.Button(root, text="Buscar", command=lambda:buscar_produtos(nome_entry, lista)).pack()
+    busca_entry = tk.Entry(root)
+    busca_entry.pack()
+    tk.Button(root, text="Buscar", command=lambda:carregar_produtos(busca_entry, lista)).pack()
     lista = tk.Listbox(root, width=50)
     lista.pack(pady=10)
 
     tk.Button(root, text="Adicionar Produto", command=lambda:incluir_produtos(nome_entry, preco_entry)).pack()
     tk.Button(root, text="Deletar Produto", command=lambda:deletar_produto(nome_entry)).pack()
 
-    buscar_produtos(lista)
+    carregar_produtos(busca_entry, lista)
     root.mainloop()
     
 
